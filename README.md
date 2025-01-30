@@ -47,8 +47,8 @@ The **YouTube Summarizer** is a tool that extracts transcripts from YouTube vide
 	2. ```bash
 		npm install	   
 3.  Run the application:
-	Run `python server.py` in one terminal
-	Run `cd client` and `npm start` in other terminal respectively  
+	1. Run `python server.py` in one terminal
+	2. Run `cd client` and `npm start` in other terminal respectively  
 
 ----------
 
