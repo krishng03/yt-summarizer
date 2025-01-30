@@ -1,70 +1,59 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 📌 YouTube Summarizer
 
-## Available Scripts
+### 📝 **Project Overview**
 
-In the project directory, you can run:
+The **YouTube Summarizer** is a tool that extracts transcripts from YouTube videos and generates concise summaries using AI. This helps users quickly understand video content without watching the entire video.
 
-### `npm start`
+----------
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 🚀 **Features**
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+-   📌 **Fetches YouTube Video Details** – Extracts metadata (title, description, etc.).
+-   🗣 **Retrieves Video Transcript** – Uses YouTube API to fetch subtitles (if available).
+-   🧠 **AI-Powered Summarization** – Processes the transcript and generates a meaningful summary.
+-   📜 **User-Friendly Output** – Provides a clear and concise text summary.
 
-### `npm test`
+----------
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 🏗 **How It Works**
 
-### `npm run build`
+1.  The **User** provides a YouTube video URL.
+2.  The system fetches the **video details and transcript** from the **YouTube API**.
+3.  The **Summarizer AI** processes the transcript and creates a **short summary** using locally installed LLMs using **Ollama**.
+4.  The summary is **displayed to the user** for easy consumption.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+----------
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 📦 **Tech Stack**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+-   **Backend:** Python / Node.js
+-   **APIs:** YouTube Data API, AI Text Summarization Model
+-   **Frontend:** React / HTML + CSS (Optional)
+-   **Libraries:** Requests, Transformers (Hugging Face) / OpenAI API
 
-### `npm run eject`
+----------
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 📜 **Installation & Setup**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1.  Clone this repository:
+    
+    ```bash 
+    git clone https://github.com/krishng03/yt-summarizer.git    
+2.  Install dependencies (Create virtual environment):
+    
+	   1. ```bash
+		   pip install requirements.txt    
+		2. ```bash
+			npm install	   
+3.  Run the application:
+	Run `python server.py` in one terminal
+	Run `cd client` and `npm start` in other terminal respectively  
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+----------
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 🎯 **Usage**
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1.  Open the app and **paste a YouTube video link**.
+2.  Click **Summarize** to process the transcript.
+3.  Read the **AI-generated summary** in seconds!
