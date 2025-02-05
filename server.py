@@ -7,7 +7,7 @@ import google.generativeai as genai
 
 app = FastAPI()
 
-genai.configure(api_key="AIzaSyCDW2GQ63a8utQiBwi-zCGzbjBlapXdkuc")
+genai.configure(api_key="GEMINI_API_KEY")
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 def get_english_subtitles(video_url):
