@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "yt-summarizer",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

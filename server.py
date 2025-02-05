@@ -3,8 +3,12 @@ import requests
 import json
 import yt_dlp
 from youtube_transcript_api import YouTubeTranscriptApi
+import google.generativeai as genai
 
 app = FastAPI()
+
+genai.configure(api_key="AIzaSyCDW2GQ63a8utQiBwi-zCGzbjBlapXdkuc")
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 def get_english_subtitles(video_url):
     try:
@@ -28,7 +32,6 @@ async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     try:
         while True:
-            url = "http://localhost:11434/api/generate"
             video_url = await websocket.receive_text()
             en_subtitles, video_title, video_description = get_english_subtitles(video_url)
             print(video_title)
@@ -48,20 +51,18 @@ async def websocket_endpoint(websocket: WebSocket):
             3. Key conclusions or takeaways
 
             Format the summary in clear paragraphs and keep it concise yet informative.
+
+            Follow the below instructions:
+            1. Give headings within <h2></h2>
+            2. Give paragraphs within <p></p>
+            3. Give unordered list bullet points within <ul><li></li></ul>
+            4. Give unordered list bullet points within <ol><li></li></ol>
+            5. Enclose the bold text between <strong></strong>
             '''
-            headers = {
-                "Content-Type": "application/json",
-            }
-            data = {
-                "model": "llama3.2:1b",
-                "prompt": prompt_template,
-                "stream": False
-            }
-            response = requests.post(url, headers=headers, data=json.dumps(data))
-            if(response.status_code == 200):
+            response = model.generate_content(prompt_template).text
+            if(response):
                 try :
-                    response_data = response.json()
-                    await websocket.send_text(f"{response_data['response']}")
+                    await websocket.send_text(f"{response}")
                 except Exception as e:
                     print(e)
             else:

@@ -9,7 +9,7 @@ function App() {
 
 
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8000/ws');
+    const ws = new WebSocket('ws://127.0.0.1:8000/ws');
     ws.onopen = () => { 
       console.log('Connected to server');
     }
@@ -40,25 +40,7 @@ function App() {
       setMessage('');
     }
   }
-
-  const formatMessage = (content) => {
-    // Convert markdown-style headers with custom styles
-    content = content.replace(/^\*\*(.*)\*\*$/gm, '<h1 style="font-size: 1.5em; font-weight: 800;">$1</h1>');
-    content = content.replace(/\*\*(.*)\*\*:/gm, '<strong>$1:</strong>');
-    // Convert bullet points
-    // content = content.replace(/^\* (.*$)/gm, '<li>$1</li>');
-    // content = content.replace(/^- (.*$)/gm, '<li>$1</li>');
-    // Convert apostrophes
-    // content = content.replace(/, "'");
-    // Convert numbered lists
-    content = content.replace(/^\d\. (.*$)/gm, '<li>$1</li>');
-    
-    // Convert paragraphs
-    // content = content.split('\n\n').map(para => `<p>${para}</p>`).join('');
-    
-    return content;
-  };
-
+  
   return (
     <div className="container">
       <h1>Video Summary</h1>
@@ -83,9 +65,7 @@ function App() {
             </div>
             <div 
               className="message-content"
-              dangerouslySetInnerHTML={{ 
-                __html: formatMessage(message.text || message) 
-              }}
+              dangerouslySetInnerHTML={{ __html: message.text }}
             />
           </div>
         ))}
