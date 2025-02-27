@@ -23,7 +23,7 @@ CORS(app, resources={
     }
 })
 
-genai.configure(api_key="AIzaSyCDW2GQ63a8utQiBwi-zCGzbjBlapXdkuc")
+genai.configure(api_key="GEMINI-API-KEY") # ADD HERE.... HERE
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 def get_english_subtitles(video_url):
@@ -227,6 +227,7 @@ def get_images():
 
             cap.release()
             os.remove(video_path) 
+            
 
             response = jsonify({"frames": frames})
             response.headers.add("Access-Control-Allow-Origin", "http://localhost:3000")
