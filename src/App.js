@@ -1,77 +1,126 @@
-import logo from './logo.svg';
-import './App.css';
-import React, { useState, useEffect } from 'react';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { saveYtUrl } from "./actions"; // Action creator to save URL in Redux
+import Summary from "./Summary";
+import Cards from "./Cards";
+import Images from "./Images";
 
-function App() {
-  const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState('');
-  const [ws, setWs] = useState(null);
+class App extends React.Component {
+  // Remove local state and use props from Redux for ytUrl
 
+  saveYtUrlLocal = (e) => {
+    e.preventDefault();
+    // Get the input value and dispatch the Redux action
+    const ytUrl = document.getElementById("search").value;
+    this.props.saveYtUrl(ytUrl);
+    console.log("ytUrl:", ytUrl);
+  };
 
-  useEffect(() => {
-    const ws = new WebSocket('ws://127.0.0.1:8000/ws');
-    ws.onopen = () => { 
-      console.log('Connected to server');
-    }
-    ws.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        setMessages(prevMessages => [...prevMessages, data]);
-      } catch (error) {
-        console.log('Received non-JSON message:', event.data);
-        setMessages(prevMessages => [...prevMessages, {
-          text: event.data,
-          timestamp: new Date().toISOString()
-        }]);
-      }
-    }
-    ws.onerror = (error) => {
-      console.error('WebSocket error:', error);
-    }
-    ws.onclose = () => {
-      console.log('WebSocket connection closed');
-    }
-    setWs(ws);
-  }, []); 
-
-  const sendMessage = () => {
-    if (ws && message) {
-      ws.send(message);
-      setMessage('');
-    }
-  }
-  
-  return (
-    <div className="container">
-      <h1>Video Summary</h1>
-      <div className="input-section">
-        <label>
-          Enter Video URL: {' '}
-          <input 
-            type="text" 
-            value={message} 
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Paste YouTube URL here"
-            className="input-field"
-          />
-        </label>
-        <button onClick={sendMessage} className="send-button">Generate Summary</button>
-      </div>
-      <div className="messages-container">
-        {messages.map((message, index) => (
-          <div key={index} className="message-card">
-            <div className="message-timestamp">
-              {new Date(message.timestamp || Date.now()).toLocaleString()}
+  render() {
+    return (
+      <div className="h-screen flex flex-col bg-gray-100">
+        <header className="bg-white shadow p-4">
+          <div className="bg-gray-200 m-4 rounded-lg p-6 text-center">
+            <h2 className="text-3xl font-bold">YouTube Summarizer</h2>
+            <p className="py-4">
+              Enter the URL of a YouTube video below and click "Summarize" to
+              get a summary.
+            </p>
+            <div className="p-4">
+              <form className="m-4">
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <svg
+                      className="w-4 h-4 text-gray-500"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                      />
+                    </svg>
+                  </div>
+                  <input
+                    type="search"
+                    id="search"
+                    className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="YouTube Video URL"
+                    required
+                  />
+                  <button
+                    type="submit"
+                    className="text-white absolute right-2 bottom-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+                    onClick={this.saveYtUrlLocal}
+                  >
+                    Summarize
+                  </button>
+                </div>
+              </form>
             </div>
-            <div 
-              className="message-content"
-              dangerouslySetInnerHTML={{ __html: message.text }}
-            />
           </div>
-        ))}
+        </header>
+        {this.props.ytUrl && (  
+          <main className="flex flex-grow bg-gray-100">
+            <Router>
+              <div className="flex w-full p-4">
+                <nav className="w-1/4 bg-gray-200 rounded-lg p-4 h-full">
+                  <ul className="space-y-2">
+                    <li>
+                      <Link
+                        to="/"
+                        className="block p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
+                      >
+                        Summary
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/cards"
+                        className="block p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
+                      >
+                        Cards
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/images"
+                        className="block p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
+                      >
+                        Images
+                      </Link>
+                    </li>
+                  </ul>
+                </nav>
+                <div className="w-3/4 bg-gray-300 rounded-lg p-4 ml-2">
+                  <Routes>
+                    <Route path="/" element={<Summary />} />
+                    <Route path="/cards" element={<Cards />} />
+                    <Route path="/images" element={<Images />} />
+                  </Routes>
+                </div>
+              </div>
+            </Router>
+          </main>
+          )};
       </div>
-    </div>
-  );
+    );
+  }
 }
 
-export default App;
+// Map Redux state to props
+const mapStateToProps = (state) => ({
+  ytUrl: state.ytUrl
+});
+
+// Map dispatch to props
+const mapDispatchToProps = (dispatch) => ({
+  saveYtUrl: (url) => dispatch(saveYtUrl(url))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
